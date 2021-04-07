@@ -1,1 +1,64 @@
-// TODO
+.pageContainer {
+  // display: flex;
+  // justify-content: center;
+}
+
+.posts {
+  margin: 4rem 0;
+
+  a {
+    margin-bottom: 3rem;
+  }
+}
+
+.postContent {
+  margin-bottom: 3rem;
+
+  strong {
+    font: 700 1.75rem 'Inter', sans-serif;
+    color: var(--heading);
+  }
+  > p {
+    margin-top: 0.5rem;
+    font: normal 1.125rem 'Inter', sans-serif;
+    color: var(--body);
+  }
+
+  .postSubInfo {
+    margin-top: 1.5rem;
+    display: flex;
+    color: var(--body);
+    p {
+      display: flex;
+      span {
+        margin-right: 1.5rem;
+      }
+    }
+  }
+
+  &:hover strong {
+    color: var(--highlight);
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+
+    time {
+      margin-left: 0.5rem;
+      margin-right: 1.5rem;
+    }
+  }
+}
+
+.morePosts {
+  font: 600 1.125rem 'Inter', sans-serif;
+  color: var(--highlight);
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.icon {
+  margin-right: 0.5rem;
+}

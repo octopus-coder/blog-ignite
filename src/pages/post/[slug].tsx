@@ -5,6 +5,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RichText } from 'prismic-dom';
+import { useEffect } from 'react';
 import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import Header from '../../components/Header';
 import { getPrismicClient } from '../../services/prismic';
@@ -41,6 +42,18 @@ interface PostProps {
 
 export default function Post({ post }: PostProps): JSX.Element {
   const router = useRouter();
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    const anchor = document.getElementById('inject-comments-for-uterances');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.setAttribute('async', 'true');
+    script.setAttribute('repo', 'octopus-coder/blog-ignite');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-dark');
+    anchor.appendChild(script);
+  }, []);
 
   // If the page is not yet generated, this will be displayed
   // initially until getStaticProps() finishes running
@@ -123,7 +136,7 @@ export default function Post({ post }: PostProps): JSX.Element {
             )}
           </div>
         </div>
-        {/* <div>Comentarios</div> */}
+        <div id="inject-comments-for-uterances" />
       </footer>
     </>
   );

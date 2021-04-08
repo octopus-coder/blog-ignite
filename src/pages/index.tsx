@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import Header from '../components/Header';
 import { getPrismicClient } from '../services/prismic';
@@ -26,18 +26,17 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
+  preview: boolean;
 }
 
-export default function Home({ postsPagination }: HomeProps): JSX.Element {
+export default function Home({
+  postsPagination,
+  preview,
+}: HomeProps): JSX.Element {
   const { results: posts, next_page } = postsPagination;
 
-  const [loadedPosts, setLoadedPosts] = useState<Post[]>([]);
-  const [urlNextPage, setUrlNextPage] = useState('');
-
-  useEffect(() => {
-    setLoadedPosts(posts.slice());
-    setUrlNextPage(next_page);
-  }, [next_page, posts]);
+  const [loadedPosts, setLoadedPosts] = useState<Post[]>(posts);
+  const [urlNextPage, setUrlNextPage] = useState(next_page);
 
   function handleMorePosts(): void {
     if (!urlNextPage) {
@@ -48,7 +47,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
       .then(response => response.json())
       .then(data => {
         setUrlNextPage(data.next_page);
-        setLoadedPosts(data.results);
+        setLoadedPosts([...loadedPosts, ...data.results]);
       });
   }
 
@@ -90,11 +89,21 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           Carregar mais posts
         </button>
       )}
+      {preview && (
+        <aside className={styles.preview}>
+          <Link href="/api/exit-preview">
+            <a>Sair do modo Preview</a>
+          </Link>
+        </aside>
+      )}
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async ({
+  preview = false,
+  previewData,
+}) => {
   const prismic = getPrismicClient();
 
   const { results, next_page } = await prismic.query(
@@ -103,6 +112,7 @@ export const getStaticProps: GetStaticProps = async () => {
       fetch: ['posts.title', 'posts.content'],
       pageSize: 1,
       page: 1,
+      ref: previewData?.ref ?? null,
     }
   );
 
@@ -125,6 +135,7 @@ export const getStaticProps: GetStaticProps = async () => {
         next_page,
         results: posts,
       },
+      preview,
       revalidate: 60 * 60 * 24,
     },
   };

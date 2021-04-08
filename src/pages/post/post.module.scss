@@ -1,1 +1,78 @@
-// TODO
+.banner {
+  height: 18.75rem;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.title {
+  color: var(--heading);
+  font-weight: bold;
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  margin-top: 5rem;
+}
+
+.postInfo {
+  color: var(--info);
+  margin-bottom: 4rem;
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 0.5rem;
+  }
+  span,
+  time {
+    margin-right: 1.5rem;
+  }
+}
+
+.postContent {
+  color: var(--body);
+  h2 {
+    color: var(--heading);
+    margin-bottom: 3.5rem;
+  }
+  p {
+    font-size: 1.125rem;
+    line-height: 1.7rem;
+  }
+
+  strong {
+    color: var(--highlight);
+  }
+}
+
+.footer {
+  margin-top: 4rem;
+  position: relative;
+
+  &::before {
+    content: '';
+    width: 100%;
+    position: absolute;
+    top: 0;
+    opacity: 0.1;
+    border-top: 1px solid var(--body);
+  }
+}
+
+.footerPosts {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 5rem;
+}
+
+.otherPost {
+  margin-top: 3rem;
+  h3 {
+    color: var(--heading);
+  }
+  p {
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: var(--highlight);
+  }
+}
